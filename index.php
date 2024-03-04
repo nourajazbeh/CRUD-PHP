@@ -14,17 +14,25 @@ if(isset($_POST['save'])) {
   if(!$res_add) {
     die(mysqli_error($con));
 
-  }else {
+  } else {
     $action = "add";
   }
 
+}
+if(isset($_GET['action']) && $_GET['action']=='del'){
+  $del_sql="DELETE FROM users WHERE id = $id";
+  $res_del = mysqli_query($con, $del_sql);
+  if (!$res_add) {
+    die(mysqli_error($con));
 
+
+  } else {
+    $action = "del";
   }
-  $add_sql="SELECT * FROM users";
-  $res_add =mysqli_query($con, $add_sql);
-
-  var_dump
-
+}
+  $add_sql = "SELECT * FROM users";
+  $all_user = mysqli_query($con, $users_sql);
+  
 
 ?>?
 
@@ -58,7 +66,41 @@ if(isset($_POST['save'])) {
               <th scope="col">Mobile</th>
               <th scope="col">Action</th>
             </tr>
-          </thead>  
+          </thead> 
+          </tbody> 
+          <?php
+
+        while ($user = $all_user->fetch_assoc()) { ?>
+          
+           <tr>
+
+            <td>
+              <?php echo $user['id']; ?>
+
+            </td>
+            <td>
+              <?php echo $user['name']; ?>
+            </td> 
+            <td>
+        
+           <?php echo $user['email']; ?>
+              </td>
+              <td>
+                <?php echo $user['mobile']; ?>
+              </td>
+
+              <td>
+              <div class="d-flex p-2 justify-contevt-evenly mb-2">
+
+                 <i onblick="confirm_delete(<?php echo $user['id']; ?>" class="text-danger" data-feather="trash-2"></i>
+                 <i onclick="edit(<?php echo $user['id']; ?>);"class="text-success"data-feather="edit"></i>   
+
+                </div>
+              </td>
+            </tr>  
+         <?php }
+            ?>
+          </tbody>
          </table>
         </div> 
      
@@ -69,8 +111,17 @@ if(isset($_POST['save'])) {
     <script src="js/toster.js"></script>
     <script src="js/main.js"></script>
     <?php
+
+    if ($action != false) {
+      if ($action == 'add') { ?>
+        <script>
+          show_add()
+        </script>
+
+    <?php
+   }    
     
-    if($ection == 'del') { ?>
+    if ($action == 'del') { ?>
       <script>
         show_del()
       </script>
@@ -86,15 +137,10 @@ if(isset($_POST['save'])) {
 
       <?php
     }
-  
+  }
 
   ?>
-    <script>
-      feather.replace();
-
-
-      toaster.info("Are?")
-    </script>
+  <script>
+    feather.replace();
+  </script>
 </body>
-
-</html>

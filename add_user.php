@@ -1,4 +1,36 @@
+<?php 
+include_once('db.php');
+$title="Add";
+$name="";
+$email="";
+$mobile="";
+$password="";
+$btn_title="Save";
+if(isset($_GET['action']) && $_GET['action']=='edit'){
+
+   
+    $id=$_GET['id'];
+    $sql="SELECT * FROM users WHERE id = ".$id;
+    $user =mysqli_query($con,$sql);
+    if($user){
+       $title="Update" ;
+       $current_user=$user->fetch_assoc();
+       $name=$current_user['name'];
+       $email=$current_user['email'];
+       $mobile=$current_user['mobile'];
+       $password=$current_user['password'];
+       $btn_title="Update";
+
+    }
+
+}
+
+?>
+
+
 <!DOCTYPE html>
+
+
 <html lang="en">
 
 <head>
@@ -40,7 +72,7 @@
                     <input type="password" class="form-control"  value="<?php echo $password; ?>"
                     placeholder="password" name="password"
                         autocomplete="false">
-                </div>
+                    </div>
         </form>
       </div> 
      
