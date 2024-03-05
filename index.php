@@ -7,22 +7,36 @@ if(isset($_POST['save'])) {
   $email = $_POST['email'];
   $mobile = $_POST['mobile'];
   $password = $_POST['password'];
+  if ($_POST['save']== "save") {
   
-  $add_sql = "INSERT INTO 'users'( 'name','email', 'password', 'mobile') VALUES
+  $save_sql = "INSERT INTO 'users'( 'name','email', 'password', 'mobile') VALUES
   ('$name','$email','$password','$mobile')";
-  $res_add =mysqli_query($con, $add_sql);
-  if(!$res_add) {
-    die(mysqli_error($con));
+  }else{
+    $id= $_POST['id'] ;
+    $save_sql = "UPDATE `users` SET `name`='$name',`email`='$email' ,`mobile`='$mobile' ,
+    `password`='$password' WHERE id =$id " ;
+    }
 
-  } else {
-    $action = "add";
+
+$res_save = mysqli_query($con, $save_sql);
+if (!$res_save) {
+  die(mysqli_error($con));
+
+} else {
+    if (isset($_POST['id'])){
+      $action = "edit";
+    }else{
+      $action = "add";
+    }
+
   }
 
 }
-if(isset($_GET['action']) && $_GET['action']=='del'){
+if(isset($_GET['action']) && $_GET['action'] =='del'){
+  $id = $_GET['id'];
   $del_sql="DELETE FROM users WHERE id = $id";
   $res_del = mysqli_query($con, $del_sql);
-  if (!$res_add) {
+  if (!$res_del) {
     die(mysqli_error($con));
 
 
@@ -30,11 +44,11 @@ if(isset($_GET['action']) && $_GET['action']=='del'){
     $action = "del";
   }
 }
-  $add_sql = "SELECT * FROM users";
+  $users_sql = "SELECT * FROM users";
   $all_user = mysqli_query($con, $users_sql);
   
 
-?>?
+?>
 
 <!DOCTYPE html>
 
@@ -67,7 +81,7 @@ if(isset($_GET['action']) && $_GET['action']=='del'){
               <th scope="col">Action</th>
             </tr>
           </thead> 
-          </tbody> 
+          </body> 
           <?php
 
         while ($user = $all_user->fetch_assoc()) { ?>
@@ -144,3 +158,4 @@ if(isset($_GET['action']) && $_GET['action']=='del'){
     feather.replace();
   </script>
 </body>
+</html>

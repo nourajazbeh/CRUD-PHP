@@ -73,6 +73,19 @@ if(isset($_GET['action']) && $_GET['action']=='edit'){
                     placeholder="password" name="password"
                         autocomplete="false">
                     </div>
+                    </div>
+                <?php 
+                
+                if (isset($_GET['id'])){?>
+
+
+                    <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
+
+
+             <?php   }
+                
+                ?>
+                <input type="submit" class="btn btn-primary" value="<?php echo $btn_title; ?>" name="save">
         </form>
       </div> 
      
