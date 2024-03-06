@@ -1,6 +1,6 @@
 <?php
 include_once('db.php');
-$action = false;
+
 
 if(isset($_POST['save'])) {
   $name = $_POST['name'];
